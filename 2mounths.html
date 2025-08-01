@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Plano de Estudos - 2 Meses UECE (Humanas + Exatas)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #0a2342 0%, #003d73 100%);
+            margin: 0;
+            padding: 2em;
+            color: #eee;
+        }
+
+        header {
+            background: #001828;
+            color: #b8d2ff;
+            padding: 1em;
+            text-align: center;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+            user-select: none;
+        }
+
+        .months {
+            display: flex;
+            justify-content: center;
+            margin: 2em 0 1em 0;
+            gap: 1em;
+        }
+
+        .month-btn {
+            padding: 0.5em 1.3em;
+            border: none;
+            border-radius: 5px;
+            background: #005baa;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 3px 8px rgb(0 61 115 / 0.6);
+            transition: background 0.3s ease;
+            user-select: none;
+        }
+
+        .month-btn.active {
+            background: #003d73;
+            box-shadow: 0 5px 15px rgb(0 61 115 / 0.9);
+        }
+
+        .month-btn:hover {
+            background: #003d73;
+            box-shadow: 0 5px 15px rgb(0 61 115 / 0.9);
+        }
+
+        .weeks-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1em;
+            margin-bottom: 1.5em;
+        }
+
+        .week-btn {
+            padding: 0.7em 1.3em;
+            border: none;
+            border-radius: 5px;
+            background: #005baa;
+            color: #fff;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 3px 8px rgb(0 61 115 / 0.6);
+            user-select: none;
+            transition: background 0.3s ease;
+        }
+
+        .week-btn.active {
+            background: #003d73;
+            box-shadow: 0 5px 15px rgb(0 61 115 / 0.9);
+        }
+
+        .week-btn:hover {
+            background: #003d73;
+            box-shadow: 0 5px 15px rgb(0 61 115 / 0.9);
+        }
+
+        .cards-wrapper {
+            display: flex;
+            gap: 1em;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .cards-column {
+            background: #d6e0f0;
+            border-radius: 6px;
+            padding: 1em;
+            box-shadow: 0 5px 12px rgb(0 61 115 / 0.3);
+            max-width: 400px;
+            width: 100%;
+            color: #002951;
+        }
+
+        .cards-column h2 {
+            color: #003d73;
+            margin-top: 0;
+            text-align: center;
+            margin-bottom: 1em;
+            user-select: none;
+        }
+
+        .card {
+            background: #f7f9fc;
+            border-radius: 6px;
+            padding: 1em;
+            margin-bottom: 0.7em;
+            box-shadow: 0 3px 8px rgb(0 61 115 / 0.3);
+            color: #002951;
+            user-select: none;
+        }
+
+        .card-title {
+            font-weight: bold;
+            margin-bottom: 0.5em;
+        }
+
+        .actions {
+            margin-top: 0.5em;
+        }
+
+        .action-btn {
+            margin-right: 0.5em;
+            padding: 0.4em 1em;
+            border: none;
+            border-radius: 4px;
+            background: #005baa;
+            color: white;
+            cursor: pointer;
+            font-size: 0.95em;
+            box-shadow: 0 3px 8px rgb(0 61 115 / 0.6);
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .action-btn:hover {
+            background: #003d73;
+            box-shadow: 0 5px 15px rgb(0 61 115 / 0.9);
+        }
+
+        @media (max-width: 900px) {
+            .cards-wrapper {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .cards-column {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Plano de Estudos - 2 Meses (UECE)</h1>
+        <p>Escolha mês e semana para ver os tópicos de Humanas e Exatas juntos.</p>
+    </header>
+
+    <div class="months" id="months-container">
+        <button class="month-btn active" data-month="1">Mês 1</button>
+        <button class="month-btn" data-month="2">Mês 2</button>
+    </div>
+
+    <div class="weeks-list" id="weeks-list"></div>
+
+    <div class="cards-wrapper">
+        <div class="cards-column" id="humanas-column">
+            <h2>Humanas</h2>
+            <div id="humanas-container"></div>
+        </div>
+        <div class="cards-column" id="exatas-column">
+            <h2>Exatas</h2>
+            <div id="exatas-container"></div>
+        </div>
+    </div>
+
+    <script>
+        // Dados com as semanas e tópicos para 2 meses
+        const dados = {
+            humanas: {
+                1: [
+                    [
+                        { titulo: "História: Brasil Colônia" },
+                        { titulo: "História: Brasil Império" },
+                        { titulo: "Geografia: Geopolítica e Geografia do Ceará" },
+                        { titulo: "Filosofia: Ética e Moral" },
+                        { titulo: "Sociologia: Processos de Socialização" },
+                        { titulo: "Espanhol: Interpretação textual básica" }
+                    ],
+                    [
+                        { titulo: "História: República Velha e Era Vargas" },
+                        { titulo: "Geografia: Climatologia e Atualidades" },
+                        { titulo: "Filosofia: Filosofia Política" },
+                        { titulo: "Sociologia: Movimentos Sociais" },
+                        { titulo: "Espanhol: Gramática básica e verbos" }
+                    ],
+                    [
+                        { titulo: "História: Revolução Francesa e Industrial" },
+                        { titulo: "Geografia: Urbanização e Agricultura" },
+                        { titulo: "Filosofia: Existencialismo e Humanismo" },
+                        { titulo: "Sociologia: Cultura e Cidadania" },
+                        { titulo: "Espanhol: Tempos verbais e interpretação" }
+                    ],
+                    [
+                        { titulo: "História: Ditadura Militar e Brasil Contemporâneo" },
+                        { titulo: "Geografia: Economia e Sustentabilidade" },
+                        { titulo: "Filosofia: Ética aplicada e bioética" },
+                        { titulo: "Sociologia: Estratificação social e desigualdade" },
+                        { titulo: "Espanhol: Produção textual e vocabulário" }
+                    ]
+                ],
+                2: [
+                    [
+                        { titulo: "História: Globalização e desafios atuais" },
+                        { titulo: "Geografia: Geografia Urbana e Regional" },
+                        { titulo: "Filosofia: Revisão e debates" },
+                        { titulo: "Sociologia: Mídia, cultura e comportamento social" },
+                        { titulo: "Espanhol: Simulado e análise de erros" }
+                    ],
+                    [
+                        { titulo: "História: América Latina e movimentos sociais" },
+                        { titulo: "Geografia: Problemas ambientais regionais e globais" },
+                        { titulo: "Filosofia: Ética aplicada e bioética" },
+                        { titulo: "Sociologia: Estratificação social e desigualdade" },
+                        { titulo: "Espanhol: Prática de escrita e produção textual" }
+                    ],
+                    [
+                        { titulo: "História: Revisão geral e simulados" },
+                        { titulo: "Geografia: Revisão geral e simulados" },
+                        { titulo: "Filosofia: Revisão geral" },
+                        { titulo: "Sociologia: Revisão geral" },
+                        { titulo: "Espanhol: Revisão geral" }
+                    ]
+                ]
+            },
+            exatas: {
+                1: [
+                    [
+                        { titulo: "Matemática: Funções (afim e quadrática)" },
+                        { titulo: "Matemática: Polinômios" },
+                        { titulo: "Física: Leis de Newton" },
+                        { titulo: "Química: Ligações Químicas" },
+                        { titulo: "Biologia: Citologia" }
+                    ],
+                    [
+                        { titulo: "Matemática: Trigonometria" },
+                        { titulo: "Matemática: Matrizes e Determinantes" },
+                        { titulo: "Física: Trabalho e Energia" },
+                        { titulo: "Química: Tabela Periódica" },
+                        { titulo: "Biologia: Genética - Leis de Mendel" }
+                    ],
+                    [
+                        { titulo: "Matemática: Geometria Analítica" },
+                        { titulo: "Matemática: Logaritmos" },
+                        { titulo: "Física: Cinemática" },
+                        { titulo: "Química: Química Orgânica - Hidrocarbonetos" },
+                        { titulo: "Biologia: Zoologia - Invertebrados" }
+                    ],
+                    [
+                        { titulo: "Matemática: Probabilidade e Estatística" },
+                        { titulo: "Matemática: Sequências e Progressões" },
+                        { titulo: "Física: Termodinâmica" },
+                        { titulo: "Química: Estequiometria" },
+                        { titulo: "Biologia: Botânica - Briófitas e Pteridófitas" }
+                    ]
+                ],
+                2: [
+                    [
+                        { titulo: "Matemática: Geometria Espacial" },
+                        { titulo: "Matemática: Revisão Geral" },
+                        { titulo: "Física: Eletromagnetismo e Circuitos Elétricos" },
+                        { titulo: "Química: Modelos Atômicos" },
+                        { titulo: "Biologia: Anatomia Humana (sistemas principais)" }
+                    ],
+                    [
+                        { titulo: "Matemática: Funções Exponenciais e Logarítmicas" },
+                        { titulo: "Matemática: Números Complexos (introdução)" },
+                        { titulo: "Física: Óptica e Ondulatória" },
+                        { titulo: "Química: Química Inorgânica – Ácidos, Bases e Sais" },
+                        { titulo: "Biologia: Fisiologia Humana (cardiovascular e nervoso)" }
+                    ],
+                    [
+                        { titulo: "Matemática: Revisão aprofundada e exercícios" },
+                        { titulo: "Física: Revisão geral e exercícios" },
+                        { titulo: "Química: Revisão geral e exercícios" },
+                        { titulo: "Biologia: Revisão geral e exercícios" },
+                        { titulo: "Simulados e análise de desempenho Exatas" }
+                    ]
+                ]
+            }
+        };
+
+        let mesAtivo = 1;
+        let semanaAtiva = 0;
+
+        const monthsContainer = document.getElementById('months-container');
+        const weeksList = document.getElementById('weeks-list');
+        const humanasContainer = document.getElementById('humanas-container');
+        const exatasContainer = document.getElementById('exatas-container');
+
+        function atualizarMeses() {
+            [...monthsContainer.children].forEach(btn => {
+                btn.classList.toggle('active', parseInt(btn.dataset.month) === mesAtivo);
+            });
+        }
+
+        function criarBotoesSemanas() {
+            weeksList.innerHTML = '';
+            const semanasMes = dados.humanas[mesAtivo];
+            semanasMes.forEach((_, i) => {
+                const btn = document.createElement('button');
+                btn.className = 'week-btn' + (i === semanaAtiva ? ' active' : '');
+                btn.textContent = `Semana ${i + 1}`;
+                btn.onclick = () => {
+                    semanaAtiva = i;
+                    mostrarSemana();
+                    atualizarBotoesSemana();
+                };
+                weeksList.appendChild(btn);
+            });
+        }
+
+        function atualizarBotoesSemana() {
+            [...weeksList.children].forEach((btn, i) => {
+                btn.classList.toggle('active', i === semanaAtiva);
+            });
+        }
+
+        function getLinks(titulo) {
+            const query = encodeURIComponent(titulo);
+            return {
+                video: `https://www.youtube.com/results?search_query=${query}`,
+                leitura: `https://www.google.com/search?q=site:todamateria.com.br+${query}`,
+                exercicio: `https://www.google.com/search?q=exerc%C3%ADcios+${query}+UECE`
+            };
+        }
+
+        function criarBotaoLink(texto, url) {
+            const a = document.createElement('a');
+            a.href = url;
+            a.target = '_blank';
+            a.rel = 'noopener noreferrer';
+            a.className = 'action-btn';
+            a.textContent = texto;
+            return a;
+        }
+
+        function mostrarSemana() {
+            humanasContainer.innerHTML = '';
+            exatasContainer.innerHTML = '';
+
+            const topicosHumanas = dados.humanas[mesAtivo][semanaAtiva];
+            const topicosExatas = dados.exatas[mesAtivo][semanaAtiva];
+
+            topicosHumanas.forEach(t => {
+                const links = getLinks(t.titulo);
+                const card = document.createElement('div');
+                card.className = 'card';
+
+                const titulo = document.createElement('div');
+                titulo.className = 'card-title';
+                titulo.textContent = t.titulo;
+
+                const actions = document.createElement('div');
+                actions.className = 'actions';
+
+                actions.appendChild(criarBotaoLink('Vídeo', links.video));
+                actions.appendChild(criarBotaoLink('Leitura', links.leitura));
+                actions.appendChild(criarBotaoLink('Exercício', links.exercicio));
+
+                card.appendChild(titulo);
+                card.appendChild(actions);
+
+                humanasContainer.appendChild(card);
+            });
+
+            topicosExatas.forEach(t => {
+                const links = getLinks(t.titulo);
+                const card = document.createElement('div');
+                card.className = 'card';
+
+                const titulo = document.createElement('div');
+                titulo.className = 'card-title';
+                titulo.textContent = t.titulo;
+
+                const actions = document.createElement('div');
+                actions.className = 'actions';
+
+                actions.appendChild(criarBotaoLink('Vídeo', links.video));
+                actions.appendChild(criarBotaoLink('Leitura', links.leitura));
+                actions.appendChild(criarBotaoLink('Exercício', links.exercicio));
+
+                card.appendChild(titulo);
+                card.appendChild(actions);
+
+                exatasContainer.appendChild(card);
+            });
+        }
+
+        monthsContainer.addEventListener('click', e => {
+            if (e.target.classList.contains('month-btn')) {
+                const novoMes = parseInt(e.target.dataset.month);
+                if (novoMes !== mesAtivo) {
+                    mesAtivo = novoMes;
+                    semanaAtiva = 0;
+                    atualizarMeses();
+                    criarBotoesSemanas();
+                    mostrarSemana();
+                }
+            }
+        });
+
+        // Inicializa com Mês 1, Semana 1
+        atualizarMeses();
+        criarBotoesSemanas();
+        mostrarSemana();
+    </script>
+</body>
+
+</html>

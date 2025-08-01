@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Plano de Estudos - 3 Meses UECE (Humanas + Exatas)</title>
+<style>
+    body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #0a2342 0%, #003d73 100%);
+    margin: 0; padding: 2em;
+    color: #eee;
+  }
+  header {
+    background: #001828;
+    color: #b8d2ff;
+    padding: 1em;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.6);
+    user-select: none;
+  }
+  .months {
+    display: flex;
+    justify-content: center;
+    margin: 2em 0 1em 0;
+    gap: 1em;
+  }
+  .month-btn {
+    padding: 0.5em 1.3em;
+    border: none;
+    border-radius: 5px;
+    background: #005baa;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 3px 8px rgb(0 61 115 / 0.6);
+    transition: background 0.3s ease;
+    user-select: none;
+  }
+  .month-btn.active {
+    background: #003d73;
+    box-shadow: 0 5px 15px rgb(0 61 115 / 0.9);
+  }
+  .month-btn:hover {
+    background: #003d73;
+    box-shadow: 0 5px 15px rgb(0 61 115 / 0.9);
+  }
+  .weeks-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1em;
+    margin-bottom: 1.5em;
+  }
+  .week-btn {
+    padding: 0.7em 1.3em;
+    border: none;
+    border-radius: 5px;
+    background: #005baa;
+    color: #fff;
+    cursor: pointer;
+    font-weight: bold;
+    box-shadow: 0 3px 8px rgb(0 61 115 / 0.6);
+    user-select: none;
+    transition: background 0.3s ease;
+  }
+  .week-btn.active {
+    background: #003d73;
+    box-shadow: 0 5px 15px rgb(0 61 115 / 0.9);
+  }
+  .week-btn:hover {
+    background: #003d73;
+    box-shadow: 0 5px 15px rgb(0 61 115 / 0.9);
+  }
+  .cards-wrapper {
+    display: flex;
+    gap: 1em;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .cards-column {
+    background: #d6e0f0;
+    border-radius: 6px;
+    padding: 1em;
+    box-shadow: 0 5px 12px rgb(0 61 115 / 0.3);
+    max-width: 400px;
+    width: 100%;
+    color: #002951;
+  }
+  .cards-column h2 {
+    color: #003d73;
+    margin-top: 0;
+    text-align: center;
+    margin-bottom: 1em;
+    user-select: none;
+  }
+  .card {
+    background: #f7f9fc;
+    border-radius: 6px;
+    padding: 1em;
+    margin-bottom: 0.7em;
+    box-shadow: 0 3px 8px rgb(0 61 115 / 0.3);
+    color: #002951;
+    user-select: none;
+  }
+  .card-title {
+    font-weight: bold;
+    margin-bottom: 0.5em;
+  }
+  .actions {
+    margin-top: 0.5em;
+  }
+  .action-btn {
+    margin-right: 0.5em;
+    padding: 0.4em 1em;
+    border: none;
+    border-radius: 4px;
+    background: #005baa;
+    color: white;
+    cursor: pointer;
+    font-size: 0.95em;
+    box-shadow: 0 3px 8px rgb(0 61 115 / 0.6);
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+  }
+  .action-btn:hover {
+    background: #003d73;
+    box-shadow: 0 5px 15px rgb(0 61 115 / 0.9);
+  }
+  @media (max-width: 900px) {
+    .cards-wrapper {
+      flex-direction: column;
+      align-items: center;
+    }
+    .cards-column {
+      max-width: 100%;
+    }
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>Plano de Estudos - 3 Meses (UECE)</h1>
+  <p>Escolha mês e semana para ver os tópicos de Humanas e Exatas juntos.</p>
+</header>
+
+<div class="months" id="months-container">
+  <button class="month-btn active" data-month="1">Mês 1</button>
+  <button class="month-btn" data-month="2">Mês 2</button>
+  <button class="month-btn" data-month="3">Mês 3</button>
+</div>
+
+<div class="weeks-list" id="weeks-list"></div>
+<div class="cards-wrapper">
+  <div class="cards-column" id="humanas-column">
+    <h2>Humanas</h2>
+    <div id="humanas-container"></div>
+  </div>
+  <div class="cards-column" id="exatas-column">
+    <h2>Exatas</h2>
+    <div id="exatas-container"></div>
+  </div>
+</div>
+
+<script>
+  const dados = {
+    humanas: {
+      1: [
+        [{ titulo: "História: Brasil Colônia" }, { titulo: "Geografia: Geopolítica Mundial" }, { titulo: "Filosofia: Ética e Moral" }],
+        [{ titulo: "Sociologia: Conceitos básicos" }, { titulo: "Espanhol: Interpretação básica" }, { titulo: "História: Brasil Império" }],
+        [{ titulo: "Geografia: Geografia do Ceará" }, { titulo: "Filosofia: Filosofia Política" }, { titulo: "Sociologia: Movimentos sociais" }],
+        [{ titulo: "Espanhol: Gramática básica" }, { titulo: "História: República Velha" }, { titulo: "Geografia: Atualidades" }]
+      ],
+      2: [
+        [{ titulo: "Filosofia: Filosofia Moderna" }, { titulo: "Sociologia: Cultura e cidadania" }, { titulo: "Espanhol: Verbos e tempos" }],
+        [{ titulo: "História: Era Vargas" }, { titulo: "Geografia: Climatologia" }, { titulo: "Filosofia: Estética" }],
+        [{ titulo: "Sociologia: Estratificação social" }, { titulo: "Espanhol: Vocabulário e expressões" }, { titulo: "História: Revolução Francesa" }],
+        [{ titulo: "Geografia: Agricultura e Urbanização" }, { titulo: "Filosofia: Existencialismo" }, { titulo: "Sociologia: Desigualdade social" }]
+      ],
+      3: [
+        [{ titulo: "História: Revolução Industrial" }, { titulo: "Geografia: Fontes de energia" }, { titulo: "Filosofia: Humanismo" }],
+        [{ titulo: "Sociologia: Mídia e cultura" }, { titulo: "Espanhol: Produção textual" }, { titulo: "História: Ditadura Militar" }],
+        [{ titulo: "Geografia: Economia" }, { titulo: "Filosofia: Bioética" }, { titulo: "Sociologia: Cidadania" }],
+        [{ titulo: "História: Brasil Contemporâneo" }, { titulo: "Geografia: Geografia Urbana" }, { titulo: "Filosofia: Ética aplicada" }]
+      ]
+    },
+    exatas: {
+      1: [
+        [{ titulo: "Matemática: Funções básicas" }, { titulo: "Matemática: Polinômios" }, { titulo: "Física: Leis de Newton" }],
+        [{ titulo: "Química: Ligações Químicas" }, { titulo: "Biologia: Citologia" }, { titulo: "Matemática: Trigonometria" }],
+        [{ titulo: "Matemática: Matrizes" }, { titulo: "Física: Trabalho e Energia" }, { titulo: "Química: Tabela Periódica" }],
+        [{ titulo: "Biologia: Genética Mendeliana" }, { titulo: "Matemática: Geometria Analítica" }, { titulo: "Matemática: Logaritmos" }]
+      ],
+      2: [
+        [{ titulo: "Física: Cinemática" }, { titulo: "Química: Química Orgânica" }, { titulo: "Biologia: Zoologia - Invertebrados" }],
+        [{ titulo: "Matemática: Probabilidade" }, { titulo: "Matemática: Progressões" }, { titulo: "Física: Termodinâmica" }],
+        [{ titulo: "Química: Estequiometria" }, { titulo: "Biologia: Botânica" }, { titulo: "Matemática: Geometria Espacial" }],
+        [{ titulo: "Matemática: Revisão Geral" }, { titulo: "Física: Eletromagnetismo" }, { titulo: "Química: Modelos Atômicos" }]
+      ],
+      3: [
+        [{ titulo: "Biologia: Anatomia Humana" }, { titulo: "Matemática: Funções Exponenciais e Logaritmos" }, { titulo: "Matemática: Números Complexos" }],
+        [{ titulo: "Física: Óptica" }, { titulo: "Química: Ácidos, Bases e Sais" }, { titulo: "Biologia: Fisiologia Humana" }],
+        [{ titulo: "Matemática: Exercícios avançados" }, { titulo: "Física: Revisão geral" }, { titulo: "Química: Revisão geral" }],
+        [{ titulo: "Biologia: Revisão geral" }, { titulo: "Matemática: Geometria Plana aprofundada" }, { titulo: "Física: Dinâmica" }]
+      ]
+    }
+  };
+
+  const leituraLinks = {
+    "História: Brasil Colônia": "https://www.todamateria.com.br/brasil-colonia/",
+    "Geografia: Geopolítica Mundial": "https://www.todamateria.com.br/geopolitica/",
+    "Filosofia: Ética e Moral": "https://www.todamateria.com.br/etica/",
+    "Sociologia: Conceitos básicos": "https://www.todamateria.com.br/sociologia/",
+    "Espanhol: Interpretação básica": "https://www.todamateria.com.br/espanhol/",
+    "História: Brasil Império": "https://www.todamateria.com.br/brasil-imperio/",
+    "Geografia: Geografia do Ceará": "https://www.todamateria.com.br/geografia-do-ceara/",
+    "Filosofia: Filosofia Política": "https://www.todamateria.com.br/filosofia-politica/",
+    "Sociologia: Movimentos sociais": "https://www.todamateria.com.br/movimentos-sociais/",
+    "Espanhol: Gramática básica": "https://www.todamateria.com.br/gramatica-do-espanhol/",
+    "História: República Velha": "https://www.todamateria.com.br/republica-velha/",
+    "Geografia: Atualidades": "https://www.todamateria.com.br/atualidades/",
+    "Filosofia: Filosofia Moderna": "https://www.todamateria.com.br/filosofia-moderna/",
+    "Sociologia: Cultura e cidadania": "https://www.todamateria.com.br/cidadania/",
+    "Espanhol: Verbos e tempos": "https://www.todamateria.com.br/verbos-espanhol/",
+    "História: Era Vargas": "https://www.todamateria.com.br/era-vargas/",
+    "Geografia: Climatologia": "https://www.todamateria.com.br/climatologia/",
+    "Filosofia: Estética": "https://www.todamateria.com.br/estetica/",
+    "Sociologia: Estratificação social": "https://www.todamateria.com.br/estratificacao-social/",
+    "Espanhol: Vocabulário e expressões": "https://www.todamateria.com.br/vocabulario-espanhol/",
+    "História: Revolução Francesa": "https://www.todamateria.com.br/revolucao-francesa/",
+    "Geografia: Agricultura e Urbanização": "https://www.todamateria.com.br/agricultura-e-urbanizacao/",
+    "Filosofia: Existencialismo": "https://www.todamateria.com.br/existencialismo/",
+    "Sociologia: Desigualdade social": "https://www.todamateria.com.br/desigualdade-social/",
+    "História: Revolução Industrial": "https://www.todamateria.com.br/revolucao-industrial/",
+    "Geografia: Fontes de energia": "https://www.todamateria.com.br/fontes-de-energia/",
+    "Filosofia: Humanismo": "https://www.todamateria.com.br/humanismo/",
+    "Sociologia: Mídia e cultura": "https://www.todamateria.com.br/midia-e-cultura/",
+    "Espanhol: Produção textual": "https://www.todamateria.com.br/producao-textual-espanhol/",
+    "História: Ditadura Militar": "https://www.todamateria.com.br/ditadura-militar-no-brasil/",
+    "Geografia: Economia": "https://www.todamateria.com.br/economia/",
+    "Filosofia: Bioética": "https://www.todamateria.com.br/bioetica/",
+    "Sociologia: Cidadania": "https://www.todamateria.com.br/cidadania/"
+  };
+
+  function getLinks(titulo) {
+    const query = encodeURIComponent(titulo);
+    const leitura = `https://www.google.com/search?q=site:todamateria.com.br+${query}`;
+    const video = `https://www.youtube.com/results?search_query=${query}`;
+    const exercicio = `https://www.google.com/search?q=exerc%C3%ADcios+${query}+UECE`;
+    return { video, leitura, exercicio };
+  }
+
+  let mesAtivo = 1;
+  let semanaAtiva = 0;
+
+  const monthsContainer = document.getElementById('months-container');
+  const weeksList = document.getElementById('weeks-list');
+  const humanasContainer = document.getElementById('humanas-container');
+  const exatasContainer = document.getElementById('exatas-container');
+
+  function atualizarMeses() {
+    [...monthsContainer.children].forEach(btn => {
+      btn.classList.toggle('active', parseInt(btn.dataset.month) === mesAtivo);
+    });
+  }
+
+  function criarBotoesSemanas() {
+    weeksList.innerHTML = '';
+    const semanasMes = dados.humanas[mesAtivo];
+    semanasMes.forEach((_, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'week-btn' + (i === semanaAtiva ? ' active' : '');
+      btn.textContent = `Semana ${i + 1}`;
+      btn.onclick = () => {
+        semanaAtiva = i;
+        mostrarSemana();
+        atualizarBotoesSemana();
+      };
+      weeksList.appendChild(btn);
+    });
+  }
+
+  function atualizarBotoesSemana() {
+    [...weeksList.children].forEach((btn, i) => {
+      btn.classList.toggle('active', i === semanaAtiva);
+    });
+  }
+
+  function criarLinkBtn(texto, url) {
+    const a = document.createElement('a');
+    a.href = url;
+    a.target = "_blank";
+    a.rel = "noopener noreferrer";
+    a.className = "action-btn";
+    a.textContent = texto;
+    return a;
+  }
+
+  function mostrarSemana() {
+    humanasContainer.innerHTML = '';
+    exatasContainer.innerHTML = '';
+    const topicosHumanas = dados.humanas[mesAtivo][semanaAtiva];
+    const topicosExatas = dados.exatas[mesAtivo][semanaAtiva];
+
+    topicosHumanas.forEach(t => {
+      const links = getLinks(t.titulo);
+      const card = document.createElement('div');
+      card.className = 'card';
+
+      const title = document.createElement('div');
+      title.className = 'card-title';
+      title.textContent = t.titulo;
+
+      const actions = document.createElement('div');
+      actions.className = 'actions';
+      actions.appendChild(criarLinkBtn('Vídeo', links.video));
+      actions.appendChild(criarLinkBtn('Leitura', links.leitura));
+      actions.appendChild(criarLinkBtn('Exercício (UECE)', links.exercicio));
+
+      card.appendChild(title);
+      card.appendChild(actions);
+      humanasContainer.appendChild(card);
+    });
+
+    topicosExatas.forEach(t => {
+      const links = getLinks(t.titulo);
+      const card = document.createElement('div');
+      card.className = 'card';
+
+      const title = document.createElement('div');
+      title.className = 'card-title';
+      title.textContent = t.titulo;
+
+      const actions = document.createElement('div');
+      actions.className = 'actions';
+      actions.appendChild(criarLinkBtn('Vídeo', links.video));
+      actions.appendChild(criarLinkBtn('Leitura', links.leitura));
+      actions.appendChild(criarLinkBtn('Exercício (UECE)', links.exercicio));
+
+      card.appendChild(title);
+      card.appendChild(actions);
+      exatasContainer.appendChild(card);
+    });
+  }
+
+  monthsContainer.addEventListener('click', e => {
+    if(e.target.classList.contains('month-btn')) {
+      mesAtivo = parseInt(e.target.dataset.month);
+      semanaAtiva = 0;
+      atualizarMeses();
+      criarBotoesSemanas();
+      mostrarSemana();
+    }
+  });
+
+  // Inicialização
+  atualizarMeses();
+  criarBotoesSemanas();
+  mostrarSemana();
+</script>
+</body>
+</html>
