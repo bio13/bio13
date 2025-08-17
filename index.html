@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -8,6 +9,7 @@
     * {
       box-sizing: border-box;
     }
+
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       margin: 0;
@@ -18,14 +20,17 @@
       flex-direction: column;
       justify-content: space-between;
     }
-    header, footer {
+
+    header,
+    footer {
       background-color: #001828;
       color: #b8d2ff;
       padding: 1.5em 1em;
       text-align: center;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.6);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
       user-select: none;
     }
+
     header h1 {
       margin: 0 0 0.2em;
       font-weight: 700;
@@ -33,12 +38,14 @@
       letter-spacing: 2px;
       text-shadow: 1px 1px 4px #000a;
     }
+
     header p {
       margin: 0 0 1.5em;
       font-weight: 500;
       font-size: 1.1rem;
       color: #9bb8ffcc;
     }
+
     .plan-buttons {
       display: flex;
       justify-content: center;
@@ -46,6 +53,7 @@
       flex-wrap: wrap;
       margin-bottom: 1.5em;
     }
+
     .plan-btn {
       background: #005baa;
       border: none;
@@ -60,12 +68,14 @@
       transition: background-color 0.3s ease;
       user-select: none;
     }
+
     .plan-btn:hover,
     .plan-btn:focus {
       background: #003d73;
       outline: none;
       box-shadow: 0 5px 15px rgb(0 61 115 / 0.9);
     }
+
     main {
       flex: 1;
       max-width: 900px;
@@ -78,6 +88,7 @@
       user-select: text;
       transition: background 0.3s ease;
     }
+
     main h2 {
       color: #003d73;
       font-weight: 700;
@@ -87,11 +98,13 @@
       letter-spacing: 1.3px;
       text-align: center;
     }
+
     .subjects-container {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
       gap: 1.8em;
     }
+
     .subject-group {
       background: #d6e0f0;
       border-radius: 20px;
@@ -102,6 +115,7 @@
       display: flex;
       flex-direction: column;
     }
+
     .subject-group h3 {
       margin-top: 0;
       margin-bottom: 1em;
@@ -111,12 +125,14 @@
       padding-bottom: 0.3em;
       user-select: text;
     }
+
     .subject-group ul {
       list-style: none;
       padding-left: 0;
       margin: 0;
       flex: 1;
     }
+
     .subject-group li {
       position: relative;
       padding-left: 30px;
@@ -129,9 +145,11 @@
       color: #0d2340;
       transition: color 0.3s ease;
     }
+
     .subject-group li:hover {
       color: #003d73;
     }
+
     .subject-group input[type="checkbox"] {
       position: absolute;
       left: 0;
@@ -143,11 +161,13 @@
       filter: drop-shadow(0 0 1px #001828);
       transition: accent-color 0.3s ease;
     }
+
     #resource-links {
       margin-top: 3.5em;
       text-align: center;
       user-select: none;
     }
+
     #resource-links .resources {
       display: flex;
       flex-wrap: wrap;
@@ -155,6 +175,7 @@
       justify-content: center;
       margin-top: 1em;
     }
+
     .resource-btn {
       flex: 1 1 180px;
       text-align: center;
@@ -170,6 +191,7 @@
       box-shadow: 0 0 8px rgb(0 61 115 / 0.15);
       user-select: none;
     }
+
     .resource-btn:hover,
     .resource-btn:focus {
       background: #003d73;
@@ -178,23 +200,28 @@
       box-shadow: 0 0 16px rgb(0 61 115 / 0.9);
       outline: none;
     }
+
     footer p {
       margin: 0;
       font-size: 0.95rem;
       letter-spacing: 0.8px;
       user-select: none;
     }
+
     @media (max-width: 720px) {
       main {
         margin: 1.2em 1em 2em;
         padding: 1.8em 1.2em;
       }
+
       .subject-group h3 {
         font-size: 1.3rem;
       }
+
       .subject-group li {
         font-size: 1.15rem;
       }
+
       .resource-btn {
         flex: 1 1 100%;
         font-size: 1.1rem;
@@ -203,13 +230,16 @@
     }
   </style>
 </head>
+
 <body>
   <header>
     <h1>Preparatório UECE</h1>
     <p>Checklist de Assuntos com Porcentagens por Matéria</p>
     <div class="plan-buttons">
-      <a href="3mounths.html" class="plan-btn" target="_blank" rel="noopener noreferrer">Plano 3 meses (Abrangente e leve)</a>
-      <a href="2mounths.html" class="plan-btn" target="_blank" rel="noopener noreferrer">Plano 2 meses (Focado e ágil)</a>
+      <a href="3mounths.html" class="plan-btn" target="_blank" rel="noopener noreferrer">Plano 3 meses (Abrangente e
+        leve)</a>
+      <a href="2mounths.html" class="plan-btn" target="_blank" rel="noopener noreferrer">Plano 2 meses (Focado e
+        ágil)</a>
     </div>
   </header>
 
@@ -220,10 +250,14 @@
     <section id="resource-links">
       <h2>Recursos Adicionais</h2>
       <div class="resources">
-        <a class="resource-btn" href="https://app.estuda.com/questoes_provas/instituicao-114/uece" target="_blank" rel="noopener noreferrer">Simulados</a>
-        <a class="resource-btn" href="https://www.youtube.com/results?search_query=uece+vestibular+aulas" target="_blank" rel="noopener noreferrer">Vídeo Aulas</a>
-        <a class="resource-btn" href="https://www.todamateria.com.br/exercicios/" target="_blank" rel="noopener noreferrer">Exercícios</a>
-        <a class="resource-btn" href="https://projetoelisa.com.br/app/mapas-mentais.php" target="_blank" rel="noopener noreferrer">Mapas Mentais</a>
+        <a class="resource-btn" href="https://app.estuda.com/questoes_provas/instituicao-114/uece" target="_blank"
+          rel="noopener noreferrer">Simulados</a>
+        <a class="resource-btn" href="https://www.youtube.com/results?search_query=uece+vestibular+aulas"
+          target="_blank" rel="noopener noreferrer">Vídeo Aulas</a>
+        <a class="resource-btn" href="https://www.todamateria.com.br/exercicios/" target="_blank"
+          rel="noopener noreferrer">Exercícios</a>
+        <a class="resource-btn" href="https://projetoelisa.com.br/app/mapas-mentais.php" target="_blank"
+          rel="noopener noreferrer">Mapas Mentais</a>
       </div>
     </section>
   </main>
@@ -292,12 +326,30 @@
         "Direitos humanos, democracia e contratualismo (~15%)",
         "Outras eras (Grécia, renascimento etc.) (~15%)"
       ],
+      "Ed. Física": [
+        "Anatomia, fisiologia, biomecânica, cinesiologia, fisiologia do exercício (~20%)",
+        "Saúde, sedentarismo, qualidade de vida, conscientização corporal (~15%)",
+        "Legislação e ética profissional (ex.: CREF, CONFEF, código de ética) (~10%)",
+        "Avaliação física, didática, inclusão e diversidade (~10%)",
+        "Esteroides anabolizantes, doping, cultura estética (~10%)",
+        "Contração muscular e musculação (~10%)",
+        "Políticas públicas, organização e administração esportiva (~5%)",
+        "Modalidades esportivas, recreação, lazer, ginástica, primeiros socorros (~5%)",
+      ],
       "Espanhol": [
         "Compreensão textual (interpretação de sentidos e inferências), vocabulário e gramática (100%)",
         "Tempos verbais (indicativo, subjuntivo, imperativos)",
         "Pronomes, preposições, advérbios, conectores",
         "Estruturas frasais afirmativas, interrogativas e negativas",
         "Concordância e uso de “en” e “y”"
+      ],
+      "Inglês": [
+        "Interpretação de texto (Reading comprehension) (~50%)",
+        "Análise sintática (Syntax parsing) (~25%)",
+        "Verbos (Verbs) (~10%)",
+        "Advérbios e conjunções (Adverbs and conjunctions) (~8%)",
+        "Preposições / Pronomes / Artigos / Adjetivos / Voz ativa/passiva (~5%)",
+        "Temas novos do programa (como Simple Present, Question words, etc.) (~2%)"
       ]
     };
 
@@ -313,7 +365,7 @@
 
       const ul = document.createElement('ul');
       assuntos.forEach(assunto => {
-        const id = `${nomeMateria.toLowerCase().replace(/\s+/g,'-')}-${assunto.toLowerCase().replace(/\s+/g,'-').replace(/[^\w\-]+/g,'')}`;
+        const id = `${nomeMateria.toLowerCase().replace(/\s+/g, '-')}-${assunto.toLowerCase().replace(/\s+/g, '-').replace(/[^\w\-]+/g, '')}`;
         const li = document.createElement('li');
         li.innerHTML = `<label><input type="checkbox" id="${id}"> ${assunto}</label>`;
         ul.appendChild(li);
@@ -327,4 +379,5 @@
     }
   </script>
 </body>
+
 </html>
