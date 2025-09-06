@@ -1,231 +1,384 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Cronograma UECE — 1 mês (Primeira Fase)</title>
-  <style>
-    :root{--bg:#0f1724;--card:#0b1220;--accent:#69b578;--muted:#94a3b8;--glass:rgba(255,255,255,0.03)}
-    *{box-sizing:border-box;font-family:Inter,ui-sans-serif,system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial}
-    body{margin:0;background:linear-gradient(180deg,#071022 0%,var(--bg) 100%);color:#e6eef8;padding:24px}
-    header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
-    h1{font-size:20px;margin:0}
-    p.lead{margin:4px 0 0;color:var(--muted);font-size:13px}
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Plano de Estudos - 2 Meses UECE (Humanas + Exatas)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #0a2342 0%, #003d73 100%);
+            margin: 0;
+            padding: 2em;
+            color: #eee;
+        }
 
-    .layout{display:grid;grid-template-columns:320px 1fr;gap:20px}
+        header {
+            background: #001828;
+            color: #b8d2ff;
+            padding: 1em;
+            text-align: center;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+            user-select: none;
+        }
 
-    /* sidebar */
-    .card{background:var(--card);padding:14px;border-radius:12px;box-shadow:0 6px 18px rgba(2,6,23,0.6)}
-    .meta{font-size:13px;color:var(--muted);margin-bottom:12px}
-    .subjects{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
-    .sub{background:var(--glass);padding:6px 8px;border-radius:8px;font-size:12px;color:var(--muted);cursor:pointer}
-    .sub.active{background:linear-gradient(90deg,var(--accent),#4da064);color:#04210a}
-    .controls{display:flex;gap:8px;margin-top:12px}
-    button{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted);padding:8px 10px;border-radius:8px;cursor:pointer}
-    button.primary{background:var(--accent);border:none;color:#02210b}
+        .months {
+            display: flex;
+            justify-content: center;
+            margin: 2em 0 1em 0;
+            gap: 1em;
+        }
 
-    /* main schedule */
-    .schedule{display:flex;flex-direction:column;gap:12px}
-    .week{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}
-    .day{background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);padding:10px;border-radius:10px;min-height:140px;position:relative}
-    .day h3{margin:0;font-size:13px}
-    .topics{margin-top:8px;font-size:13px;line-height:1.45;color:var(--muted);max-height:88px;overflow:auto;padding-right:6px}
-    .topic{display:flex;align-items:flex-start;gap:8px;margin-bottom:6px}
-    .topic input{margin-top:3px}
-    .progress{height:8px;background:rgba(255,255,255,0.04);border-radius:999px;overflow:hidden;margin-top:8px}
-    .progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),#5fbf86);width:0%}
+        .month-btn {
+            padding: 0.5em 1.3em;
+            border: none;
+            border-radius: 5px;
+            background: #005baa;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 3px 8px rgb(0 61 115 / 0.6);
+            transition: background 0.3s ease;
+            user-select: none;
+        }
 
-    footer{margin-top:12px;color:var(--muted);font-size:13px}
+        .month-btn.active {
+            background: #003d73;
+            box-shadow: 0 5px 15px rgb(0 61 115 / 0.9);
+        }
 
-    /* responsive */
-    @media(max-width:900px){.layout{grid-template-columns:1fr;}.week{grid-template-columns:repeat(2,1fr)}.card{order:2}}
+        .month-btn:hover {
+            background: #003d73;
+            box-shadow: 0 5px 15px rgb(0 61 115 / 0.9);
+        }
 
-  </style>
+        .weeks-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1em;
+            margin-bottom: 1.5em;
+        }
+
+        .week-btn {
+            padding: 0.7em 1.3em;
+            border: none;
+            border-radius: 5px;
+            background: #005baa;
+            color: #fff;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 3px 8px rgb(0 61 115 / 0.6);
+            user-select: none;
+            transition: background 0.3s ease;
+        }
+
+        .week-btn.active {
+            background: #003d73;
+            box-shadow: 0 5px 15px rgb(0 61 115 / 0.9);
+        }
+
+        .week-btn:hover {
+            background: #003d73;
+            box-shadow: 0 5px 15px rgb(0 61 115 / 0.9);
+        }
+
+        .cards-wrapper {
+            display: flex;
+            gap: 1em;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .cards-column {
+            background: #d6e0f0;
+            border-radius: 6px;
+            padding: 1em;
+            box-shadow: 0 5px 12px rgb(0 61 115 / 0.3);
+            max-width: 400px;
+            width: 100%;
+            color: #002951;
+        }
+
+        .cards-column h2 {
+            color: #003d73;
+            margin-top: 0;
+            text-align: center;
+            margin-bottom: 1em;
+            user-select: none;
+        }
+
+        .card {
+            background: #f7f9fc;
+            border-radius: 6px;
+            padding: 1em;
+            margin-bottom: 0.7em;
+            box-shadow: 0 3px 8px rgb(0 61 115 / 0.3);
+            color: #002951;
+            user-select: none;
+        }
+
+        .card-title {
+            font-weight: bold;
+            margin-bottom: 0.5em;
+        }
+
+        .actions {
+            margin-top: 0.5em;
+        }
+
+        .action-btn {
+            margin-right: 0.5em;
+            padding: 0.4em 1em;
+            border: none;
+            border-radius: 4px;
+            background: #005baa;
+            color: white;
+            cursor: pointer;
+            font-size: 0.95em;
+            box-shadow: 0 3px 8px rgb(0 61 115 / 0.6);
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .action-btn:hover {
+            background: #003d73;
+            box-shadow: 0 5px 15px rgb(0 61 115 / 0.9);
+        }
+
+        @media (max-width: 900px) {
+            .cards-wrapper {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .cards-column {
+                max-width: 100%;
+            }
+        }
+    </style>
 </head>
 <body>
-  <header>
-    <div>
-      <h1>Cronograma UECE — 1 mês (Primeira Fase)</h1>
-      <p class="lead">Plano intensivo de 4 semanas — foco nos tópicos prioritários para passar da 1ª fase com boa pontuação.</p>
+    <header>
+        <h1>Plano de Estudos - 1 mês (UECE)</h1>
+        <p>Escolha a semana para ver os tópicos de Humanas e Exatas juntos.</p>
+    </header>
+
+    <div class="months" id="months-container">
+        <button class="month-btn active" data-month="1">Mês 1</button>
     </div>
-    <div>
-      <small style="color:var(--muted)">Levi — Ajuste e marque o que concluir.</small>
+
+    <div class="weeks-list" id="weeks-list"></div>
+
+    <div class="cards-wrapper">
+        <div class="cards-column" id="humanas-column">
+            <h2>Humanas</h2>
+            <div id="humanas-container"></div>
+        </div>
+        <div class="cards-column" id="exatas-column">
+            <h2>Exatas</h2>
+            <div id="exatas-container"></div>
+        </div>
     </div>
-  </header>
 
-  <div class="layout">
-    <aside class="card">
-      <div class="meta">Assuntos incluídos (toque para ocultar/mostrar no cronograma)</div>
-      <div class="subjects" id="subjects"></div>
-      <div class="meta">Controles</div>
-      <div class="controls">
-        <button id="resetBtn">Resetar marcadores</button>
-        <button id="printBtn" class="primary">Imprimir / Exportar</button>
-      </div>
-      <div style="margin-top:12px;font-size:13px;color:var(--muted)">Progresso geral</div>
-      <div class="progress"><i id="globalProg"></i></div>
-      <div style="margin-top:10px;font-size:12px;color:var(--muted)">Dica: revise itens marcados como erro e refaça questões no 2º e 3º ciclo.</div>
-    </aside>
+    <script>
+        // Dados com as semanas e tópicos para 2 meses
+        const dados = {
+            humanas: {
+                1: [
+                    [
+                        { titulo: "História: Brasil Colônia" },
+                        { titulo: "História: Brasil Império" },
+                        { titulo: "Geografia: Geopolítica" },
+                        { titulo: "Filosofia: Ética clássica" },
+                        { titulo: "Sociologia: Trabalho" },
+                        { titulo: "Espanhol (Opcional à depender da sua escolha): Interpretação textual" },
+                        { titulo: "Inglês (Opcional à depender da sua escolha): Leitura e compreensão de textos (evidence-based reading: inferência, propósito, fato x opinião)."}
+                    ],
+                    [
+                        { titulo: "História: República Velha" },
+                        { titulo: "Ed. Física: Conceitos de atividade/exercício/aptidão/qualidade de vida; estilos de vida ativos x sedentarismo."},
+                        { titulo: "Geografia: Climatologia" },
+                        { titulo: "Filosofia: Kant" },
+                        { titulo: "Sociologia: Movimentos sociais" },
+                        { titulo: "Espanhol (Opcional à depender da sua escolha): Gramática básica" },
+                        { titulo: "Inglês (Opcional à depender da sua escolha): Estrutura frasal: simple/compound/complex/compound-complex; clauses (adverb/noun/adjective)"}
+                    ],
+                    [
+                        { titulo: "História: Ditadura Militar" },
+                        { titulo: "Ed. Física: Manifestações corporais (esportes e práticas corporais; brincadeiras/jogos; ginásticas; dança; lutas) + aplicações técnico-táticas e adaptações."},
+                        { titulo: "Geografia: Economia e Sustentabilidade" },
+                        { titulo: "Filosofia: Nietzsche e Foucault" },
+                        { titulo: "Sociologia: Desigualdade" },
+                        { titulo: "Inglês (Opcional à depender da sua escolha): Linguagem midiática e temas atuais (textos jornalísticos/redes – costumam aparecer no reading)" }
+                    ],
+                    [
+                        { titulo: "Revisão geral Humanas + Simulados" }
+                    ]
+                ]
+            },
+            exatas: {
+                1: [
+                    [
+                        { titulo: "Matemática: Funções" },
+                        { titulo: "Matemática: Polinômios" },
+                        { titulo: "Física: Leis de Newton" },
+                        { titulo: "Física: Cinemática linear" },
+                        { titulo: "Química: Ligações químicas" },
+                        { titulo: "Biologia: Citologia" }
+                    ],
+                    [
+                        { titulo: "Matemática: Trigonometria" },
+                        { titulo: "Matemática: Matrizes e Determinantes" },
+                        { titulo: "Química: Tabela periódica" },
+                        { titulo: "Química: Estequiometria" },
+                        { titulo: "Física: Trabalho e Energia" },
+                        { titulo: "Biologia: Genética" }
+                    ],
+                    [
+                        { titulo: "Matemática: Logaritmos" },
+                        { titulo: "Matemática: Geometria Analítica" },
+                        { titulo: "Biologia: Zoologia - Invertebrados" },
+                        { titulo: "Biologia: Zoologia - Vertebrados" },
+                        { titulo: "Física: Cinemática" },
+                        { titulo: "Química: Orgânica (Hidrocarbonetos)" }
+                    ],
+                    [
+                        { titulo: "Revisão geral Exatas + Simulados" }
+                    ]
+                ]
+            }
+        };
 
-    <main>
-      <section class="card schedule" id="scheduleArea">
-        <!-- Weeks injected here -->
-      </section>
-      <footer>Domingo = descanso leve / revisão ativa (20–30 min de flashcards) recomendado.</footer>
-    </main>
-  </div>
 
-  <script>
-    // --- Dados dos assuntos (baseados no checklist criado) ---
-    const subjects = {
-      'Português': [
-        'Leitura e interpretação de textos', 'Coesão e coerência', 'Figuras de linguagem', 'Concordância e regência', 'Literatura brasileira e cearense (Modernismo, afro-brasileira)'
-      ],
-      'Matemática': [
-        'Funções (1º/2º grau/exponencial/log)', 'PA/PG e razão', 'Geometria plana/espacial', 'Trigonometria (leis)', 'Probabilidade e combinatória', 'Sistemas lineares/matrizes'
-      ],
-      'Química': [
-        'Ligações e geometria molecular', 'Estequiometria', 'Funções inorgânicas', 'Equilíbrio químico', 'Química orgânica (hidrocarbonetos, isomeria)', 'Química ambiental'
-      ],
-      'Biologia': [
-        'Citologia', 'Genética mendeliana', 'Biotecnologia', 'Ecologia e ciclos', 'Fisiologia humana', 'Doenças endêmicas'
-      ],
-      'Geografia': [
-        'Mudanças climáticas', 'Questão urbana e Nordeste', 'Geopolítica e migrações', 'Globalização/desigualdades', 'Sensoriamento remoto e tecnologias'
-      ],
-      'História': [
-        'Brasil Colônia (açúcar, escravidão)', 'Império e abolicionismo', 'Primeira República (coronelismo, cangaço)', 'Vargas e Estado Novo', 'Ditadura Militar e redemocratização', 'Século XXI (fake news, políticas públicas)'
-      ],
-      'Filosofia': [
-        'Ética clássica (Sócrates/Platão/Aristóteles)', 'Kant', 'Nietzsche', 'Foucault', 'Filosofia e questões de raça/gênero'
-      ],
-      'Sociologia': [
-        'Trabalho e precarização', 'Movimentos sociais contemporâneos', 'Globalização', 'Juventude e redes sociais', 'Gênero e diversidade', 'Fake news e mídia'
-      ],
-      'Educação Física': [
-        'Aptidão física e saúde', 'Exercício e prevenção', 'Políticas públicas de esporte', 'Doping e imagem corporal', 'Manifestações corporais e esportes'
-      ],
-      'Física': [
-        'Cinemática', 'Leis de Newton', 'Energia e trabalho', 'Quantidade de movimento', 'Movimento circular', 'Hidrostática', 'Termologia e gases', 'Ondulatória e óptica', 'Eletrostática e circuitos', 'Magnetismo'
-      ],
-      'Inglês': [
-        'Reading: interpretação', 'Gramática contextual (tenses, reported speech)', 'Voz passiva e estruturas complexas', 'Textos jornalísticos e mídias'
-      ],
-      'Espanhol': [
-        'Reading: interpretação', 'Verbos (indicativo/subjuntivo/pretéritos)', 'Vocabulário cotidiano e falsos cognatos', 'Pronomes e clíticos'
-      ]
-    };
+        let mesAtivo = 1;
+        let semanaAtiva = 0;
 
-    // --- Cria lista de assuntos no sidebar ---
-    const subjectsContainer = document.getElementById('subjects');
-    Object.keys(subjects).forEach((s)=>{
-      const el = document.createElement('div');
-      el.className = 'sub active'; el.textContent = s; el.dataset.sub = s;
-      el.addEventListener('click', ()=>{ el.classList.toggle('active'); renderSchedule(); updateProgress(); });
-      subjectsContainer.appendChild(el);
-    });
+        const monthsContainer = document.getElementById('months-container');
+        const weeksList = document.getElementById('weeks-list');
+        const humanasContainer = document.getElementById('humanas-container');
+        const exatasContainer = document.getElementById('exatas-container');
 
-    // --- Gerar cronograma (4 semanas) ---
-    const scheduleArea = document.getElementById('scheduleArea');
-    function chunk(array, n){ const out=[]; let i=0; while(i<array.length){ out.push(array.slice(i,i+n)); i+=n;} return out; }
-
-    function buildWeeks(){
-      scheduleArea.innerHTML='';
-      const activeSubjects = Array.from(document.querySelectorAll('.sub.active')).map(x=>x.dataset.sub);
-      // Flat list of topic pairs to distribute
-      let topicPool = [];
-      activeSubjects.forEach(s=>{ subjects[s].forEach(t=> topicPool.push({s,t})); });
-
-      // Shuffle deterministically for fairness
-      function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]];} }
-      shuffle(topicPool);
-
-      // 4 weeks x 6 study days = 24 study slots (domingo = descanso)
-      const slots = 24;
-      const perSlot = Math.ceil(topicPool.length / slots);
-      const distributed = chunk(topicPool, perSlot);
-
-      for(let w=1;w<=4;w++){
-        const weekDiv = document.createElement('div'); weekDiv.className='week card';
-        const startIndex = (w-1)*6;
-        for(let d=0;d<6;d++){
-          const slotIndex = startIndex + d;
-          const dayDiv = document.createElement('div'); dayDiv.className='day';
-          dayDiv.dataset.week = w; dayDiv.dataset.day = d+1;
-          const dayTitle = document.createElement('h3'); dayTitle.textContent = `Semana ${w} — Dia ${d+1}`;
-          dayDiv.appendChild(dayTitle);
-          const topicsDiv = document.createElement('div'); topicsDiv.className='topics';
-
-          const items = distributed[slotIndex] || [];
-          // if items is object or array (chunked), normalize
-          const itemsArr = Array.isArray(items) ? items : [items];
-
-          if(itemsArr.length===0){
-            const p = document.createElement('div'); p.style.color='var(--muted)'; p.textContent='Revisão / resolução de questões (ênfase em erros anteriores)'; topicsDiv.appendChild(p);
-          } else {
-            itemsArr.forEach(obj=>{
-              const trow = document.createElement('label'); trow.className='topic';
-              const chk = document.createElement('input'); chk.type='checkbox'; chk.addEventListener('change', updateProgress);
-              const span = document.createElement('div'); span.innerHTML = `<strong style=\"color:#cfead8\">${obj.s}</strong>: ${obj.t}`;
-              trow.appendChild(chk); trow.appendChild(span); topicsDiv.appendChild(trow);
+        function atualizarMeses() {
+            [...monthsContainer.children].forEach(btn => {
+                btn.classList.toggle('active', parseInt(btn.dataset.month) === mesAtivo);
             });
-          }
-
-          dayDiv.appendChild(topicsDiv);
-          const progWrap = document.createElement('div'); progWrap.className='progress'; const progBar = document.createElement('i'); progWrap.appendChild(progBar); dayDiv.appendChild(progWrap);
-
-          weekDiv.appendChild(dayDiv);
         }
-        scheduleArea.appendChild(weekDiv);
-      }
 
-      // Add a final summary week with light review (optional)
-      const reviewCard = document.createElement('div'); reviewCard.className='card'; reviewCard.style.marginTop='10px';
-      reviewCard.innerHTML = `<h3 style=\"margin:0 0 8px 0\">Revisões semanais</h3>
-        <div style=\"color:var(--muted);font-size:13px\">- Sábado (tarde): Simulado / 1 prova por semana (mat+port/química+biologia)\n- Domingo: revisão ativa + flashcards\n- Toda noite: 20-30 min de vocabulário (Inglês/Espanhol)</div>`;
-      scheduleArea.appendChild(reviewCard);
+        function criarBotoesSemanas() {
+            weeksList.innerHTML = '';
+            const semanasMes = dados.humanas[mesAtivo];
+            semanasMes.forEach((_, i) => {
+                const btn = document.createElement('button');
+                btn.className = 'week-btn' + (i === semanaAtiva ? ' active' : '');
+                btn.textContent = `Semana ${i + 1}`;
+                btn.onclick = () => {
+                    semanaAtiva = i;
+                    mostrarSemana();
+                    atualizarBotoesSemana();
+                };
+                weeksList.appendChild(btn);
+            });
+        }
 
-      updateProgress();
-    }
+        function atualizarBotoesSemana() {
+            [...weeksList.children].forEach((btn, i) => {
+                btn.classList.toggle('active', i === semanaAtiva);
+            });
+        }
 
-    // --- Render schedule initially ---
-    buildWeeks();
+        function getLinks(titulo) {
+            const query = encodeURIComponent(titulo);
+            return {
+                video: `https://www.youtube.com/results?search_query=${query}`,
+                leitura: `https://www.google.com/search?q=site:todamateria.com.br+${query}`,
+                exercicio: `https://www.google.com/search?q=exerc%C3%ADcios+${query}+UECE`
+            };
+        }
 
-    // --- Re-render when subjects toggled ---
-    function renderSchedule(){ buildWeeks(); }
+        function criarBotaoLink(texto, url) {
+            const a = document.createElement('a');
+            a.href = url;
+            a.target = '_blank';
+            a.rel = 'noopener noreferrer';
+            a.className = 'action-btn';
+            a.textContent = texto;
+            return a;
+        }
 
-    // --- Progress calculation ---
-    function updateProgress(){
-      const allChk = document.querySelectorAll('.topics input[type=checkbox]');
-      const total = allChk.length;
-      const done = Array.from(allChk).filter(i=>i.checked).length;
-      const percent = total? Math.round(done/total*100):0;
-      document.getElementById('globalProg').style.width = percent + '%';
-      document.getElementById('globalProg').parentElement.style.marginTop='8px';
+        function mostrarSemana() {
+            humanasContainer.innerHTML = '';
+            exatasContainer.innerHTML = '';
 
-      // update per-day bars
-      document.querySelectorAll('.day').forEach(day=>{
-        const chks = day.querySelectorAll('.topics input[type=checkbox]');
-        const dTotal = chks.length;
-        const dDone = Array.from(chks).filter(i=>i.checked).length;
-        const p = dTotal? Math.round(dDone/dTotal*100):0;
-        day.querySelector('.progress > i').style.width = p + '%';
-      });
-    }
+            const topicosHumanas = dados.humanas[mesAtivo][semanaAtiva];
+            const topicosExatas = dados.exatas[mesAtivo][semanaAtiva];
 
-    // --- Controls ---
-    document.getElementById('resetBtn').addEventListener('click', ()=>{
-      document.querySelectorAll('.topics input[type=checkbox]').forEach(i=>i.checked=false);
-      updateProgress();
-    });
-    document.getElementById('printBtn').addEventListener('click', ()=>{ window.print(); });
+            topicosHumanas.forEach(t => {
+                const links = getLinks(t.titulo);
+                const card = document.createElement('div');
+                card.className = 'card';
 
-    // Rebuild when window resized small (nicety)
-    window.addEventListener('resize', ()=>{ /* noop for now */ });
+                const titulo = document.createElement('div');
+                titulo.className = 'card-title';
+                titulo.textContent = t.titulo;
 
-    // accessibility: keyboard toggle for subjects
-    document.querySelectorAll('.sub').forEach(s=>{ s.tabIndex=0; s.addEventListener('keydown', e=>{ if(e.key==='Enter') s.click(); }); });
+                const actions = document.createElement('div');
+                actions.className = 'actions';
 
-  </script>
+                actions.appendChild(criarBotaoLink('Vídeo', links.video));
+                actions.appendChild(criarBotaoLink('Leitura', links.leitura));
+                actions.appendChild(criarBotaoLink('Exercício', links.exercicio));
+
+                card.appendChild(titulo);
+                card.appendChild(actions);
+
+                humanasContainer.appendChild(card);
+            });
+
+            topicosExatas.forEach(t => {
+                const links = getLinks(t.titulo);
+                const card = document.createElement('div');
+                card.className = 'card';
+
+                const titulo = document.createElement('div');
+                titulo.className = 'card-title';
+                titulo.textContent = t.titulo;
+
+                const actions = document.createElement('div');
+                actions.className = 'actions';
+
+                actions.appendChild(criarBotaoLink('Vídeo', links.video));
+                actions.appendChild(criarBotaoLink('Leitura', links.leitura));
+                actions.appendChild(criarBotaoLink('Exercício', links.exercicio));
+
+                card.appendChild(titulo);
+                card.appendChild(actions);
+
+                exatasContainer.appendChild(card);
+            });
+        }
+
+        monthsContainer.addEventListener('click', e => {
+            if (e.target.classList.contains('month-btn')) {
+                const novoMes = parseInt(e.target.dataset.month);
+                if (novoMes !== mesAtivo) {
+                    mesAtivo = novoMes;
+                    semanaAtiva = 0;
+                    atualizarMeses();
+                    criarBotoesSemanas();
+                    mostrarSemana();
+                }
+            }
+        });
+
+        // Inicializa com Mês 1, Semana 1
+        atualizarMeses();
+        criarBotoesSemanas();
+        mostrarSemana();
+    </script>
 </body>
+
 </html>
