@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Plano de Estudos - 1 mês UECE (Humanas + Português + Exatas)</title>
+    <title>Plano de Estudos - 1 mês UECE (Humanas + Linguagens + Exatas)</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -164,7 +164,7 @@
 <body>
     <header>
         <h1>Plano de Estudos - 1 mês (UECE)</h1>
-        <p>Escolha a semana para ver os tópicos de Humanas, Português e Exatas juntos.</p>
+        <p>Escolha a semana para ver os tópicos de Humanas, Linguagens e Exatas juntos.</p>
     </header>
 
     <div class="months" id="months-container">
@@ -178,9 +178,9 @@
             <h2>Humanas</h2>
             <div id="humanas-container"></div>
         </div>
-        <div class="cards-column" id="portugues-column">
-            <h2>Português</h2>
-            <div id="portugues-container"></div>
+        <div class="cards-column" id="linguagens-column">
+            <h2>Linguagens</h2>
+            <div id="linguagens-container"></div>
         </div>
         <div class="cards-column" id="exatas-column">
             <h2>Exatas</h2>
@@ -189,7 +189,7 @@
     </div>
 
     <script>
-        // Dados com as semanas e tópicos
+        // Dados das semanas
         const dados = {
             humanas: {
                 1: [
@@ -217,26 +217,32 @@
                     ]
                 ]
             },
-            portugues: {
+            linguagens: {
                 1: [
                     [
-                        { titulo: "Interpretação de textos (poesia, crônica, notícia)" },
-                        { titulo: "Figuras de linguagem" },
-                        { titulo: "Gêneros textuais" }
+                        { titulo: "Português: Interpretação de textos" },
+                        { titulo: "Português: Figuras de linguagem" },
+                        { titulo: "Educação Física: Conceitos de atividade e qualidade de vida" },
+                        { titulo: "Espanhol: Interpretação textual" },
+                        { titulo: "Inglês: Reading (fato x opinião, propósito, inferência)" }
                     ],
                     [
-                        { titulo: "Gramática: Classes de palavras" },
-                        { titulo: "Gramática: Concordância verbal e nominal" },
-                        { titulo: "Gramática: Regência e Crase" }
+                        { titulo: "Português: Classes de palavras" },
+                        { titulo: "Português: Concordância e Regência" },
+                        { titulo: "Educação Física: Estilos de vida ativos x sedentarismo" },
+                        { titulo: "Espanhol: Gramática básica" },
+                        { titulo: "Inglês: Estrutura frasal e clauses" }
                     ],
                     [
-                        { titulo: "Gramática: Pontuação" },
-                        { titulo: "Gramática: Orações subordinadas" },
-                        { titulo: "Gramática: Orações coordenadas" }
+                        { titulo: "Português: Orações e Pontuação" },
+                        { titulo: "Educação Física: Esportes e práticas corporais" },
+                        { titulo: "Espanhol: Temas culturais" },
+                        { titulo: "Inglês: Textos midiáticos e atuais" }
                     ],
                     [
-                        { titulo: "Literatura: Modernismo (1ª, 2ª e 3ª fases)" },
-                        { titulo: "Revisão geral Português + Simulados" }
+                        { titulo: "Português: Modernismo (1ª, 2ª e 3ª fases)" },
+                        { titulo: "Educação Física: Revisão geral" },
+                        { titulo: "Revisão geral Linguagens + Simulados" }
                     ]
                 ]
             },
@@ -279,7 +285,7 @@
         const monthsContainer = document.getElementById('months-container');
         const weeksList = document.getElementById('weeks-list');
         const humanasContainer = document.getElementById('humanas-container');
-        const portuguesContainer = document.getElementById('portugues-container');
+        const linguagensContainer = document.getElementById('linguagens-container');
         const exatasContainer = document.getElementById('exatas-container');
 
         function atualizarMeses() {
@@ -356,11 +362,11 @@
 
         function mostrarSemana() {
             const topicosHumanas = dados.humanas[mesAtivo][semanaAtiva];
-            const topicosPortugues = dados.portugues[mesAtivo][semanaAtiva];
+            const topicosLinguagens = dados.linguagens[mesAtivo][semanaAtiva];
             const topicosExatas = dados.exatas[mesAtivo][semanaAtiva];
 
             mostrarTopicos(humanasContainer, topicosHumanas);
-            mostrarTopicos(portuguesContainer, topicosPortugues);
+            mostrarTopicos(linguagensContainer, topicosLinguagens);
             mostrarTopicos(exatasContainer, topicosExatas);
         }
 
