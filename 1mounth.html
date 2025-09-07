@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Plano de Estudos - 2 Meses UECE (Humanas + Exatas)</title>
+    <title>Plano de Estudos - 1 mês UECE (Humanas + Português + Exatas)</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -149,7 +149,7 @@
             box-shadow: 0 5px 15px rgb(0 61 115 / 0.9);
         }
 
-        @media (max-width: 900px) {
+        @media (max-width: 1200px) {
             .cards-wrapper {
                 flex-direction: column;
                 align-items: center;
@@ -164,7 +164,7 @@
 <body>
     <header>
         <h1>Plano de Estudos - 1 mês (UECE)</h1>
-        <p>Escolha a semana para ver os tópicos de Humanas e Exatas juntos.</p>
+        <p>Escolha a semana para ver os tópicos de Humanas, Português e Exatas juntos.</p>
     </header>
 
     <div class="months" id="months-container">
@@ -178,6 +178,10 @@
             <h2>Humanas</h2>
             <div id="humanas-container"></div>
         </div>
+        <div class="cards-column" id="portugues-column">
+            <h2>Português</h2>
+            <div id="portugues-container"></div>
+        </div>
         <div class="cards-column" id="exatas-column">
             <h2>Exatas</h2>
             <div id="exatas-container"></div>
@@ -185,7 +189,7 @@
     </div>
 
     <script>
-        // Dados com as semanas e tópicos para 2 meses
+        // Dados com as semanas e tópicos
         const dados = {
             humanas: {
                 1: [
@@ -194,29 +198,45 @@
                         { titulo: "História: Brasil Império" },
                         { titulo: "Geografia: Geopolítica" },
                         { titulo: "Filosofia: Ética clássica" },
-                        { titulo: "Sociologia: Trabalho" },
-                        { titulo: "Espanhol (Opcional à depender da sua escolha): Interpretação textual" },
-                        { titulo: "Inglês (Opcional à depender da sua escolha): Leitura e compreensão de textos (evidence-based reading: inferência, propósito, fato x opinião)."}
+                        { titulo: "Sociologia: Trabalho" }
                     ],
                     [
                         { titulo: "História: República Velha" },
-                        { titulo: "Ed. Física: Conceitos de atividade/exercício/aptidão/qualidade de vida; estilos de vida ativos x sedentarismo."},
                         { titulo: "Geografia: Climatologia" },
                         { titulo: "Filosofia: Kant" },
-                        { titulo: "Sociologia: Movimentos sociais" },
-                        { titulo: "Espanhol (Opcional à depender da sua escolha): Gramática básica" },
-                        { titulo: "Inglês (Opcional à depender da sua escolha): Estrutura frasal: simple/compound/complex/compound-complex; clauses (adverb/noun/adjective)"}
+                        { titulo: "Sociologia: Movimentos sociais" }
                     ],
                     [
                         { titulo: "História: Ditadura Militar" },
-                        { titulo: "Ed. Física: Manifestações corporais (esportes e práticas corporais; brincadeiras/jogos; ginásticas; dança; lutas) + aplicações técnico-táticas e adaptações."},
                         { titulo: "Geografia: Economia e Sustentabilidade" },
                         { titulo: "Filosofia: Nietzsche e Foucault" },
-                        { titulo: "Sociologia: Desigualdade" },
-                        { titulo: "Inglês (Opcional à depender da sua escolha): Linguagem midiática e temas atuais (textos jornalísticos/redes – costumam aparecer no reading)" }
+                        { titulo: "Sociologia: Desigualdade" }
                     ],
                     [
                         { titulo: "Revisão geral Humanas + Simulados" }
+                    ]
+                ]
+            },
+            portugues: {
+                1: [
+                    [
+                        { titulo: "Interpretação de textos (poesia, crônica, notícia)" },
+                        { titulo: "Figuras de linguagem" },
+                        { titulo: "Gêneros textuais" }
+                    ],
+                    [
+                        { titulo: "Gramática: Classes de palavras" },
+                        { titulo: "Gramática: Concordância verbal e nominal" },
+                        { titulo: "Gramática: Regência e Crase" }
+                    ],
+                    [
+                        { titulo: "Gramática: Pontuação" },
+                        { titulo: "Gramática: Orações subordinadas" },
+                        { titulo: "Gramática: Orações coordenadas" }
+                    ],
+                    [
+                        { titulo: "Literatura: Modernismo (1ª, 2ª e 3ª fases)" },
+                        { titulo: "Revisão geral Português + Simulados" }
                     ]
                 ]
             },
@@ -253,13 +273,13 @@
             }
         };
 
-
         let mesAtivo = 1;
         let semanaAtiva = 0;
 
         const monthsContainer = document.getElementById('months-container');
         const weeksList = document.getElementById('weeks-list');
         const humanasContainer = document.getElementById('humanas-container');
+        const portuguesContainer = document.getElementById('portugues-container');
         const exatasContainer = document.getElementById('exatas-container');
 
         function atualizarMeses() {
@@ -295,7 +315,7 @@
             return {
                 video: `https://www.youtube.com/results?search_query=${query}`,
                 leitura: `https://www.google.com/search?q=site:todamateria.com.br+${query}`,
-                exercicio: `https://www.google.com/search?q=exerc%C3%ADcios+${query}+UECE`
+                exercicio: `https://www.google.com/search?q=exercícios+${query}+UECE`
             };
         }
 
@@ -309,56 +329,39 @@
             return a;
         }
 
-        function mostrarSemana() {
-            humanasContainer.innerHTML = '';
-            exatasContainer.innerHTML = '';
+        function mostrarTopicos(container, topicos) {
+            container.innerHTML = '';
+            topicos.forEach(t => {
+                const links = getLinks(t.titulo);
+                const card = document.createElement('div');
+                card.className = 'card';
 
+                const titulo = document.createElement('div');
+                titulo.className = 'card-title';
+                titulo.textContent = t.titulo;
+
+                const actions = document.createElement('div');
+                actions.className = 'actions';
+
+                actions.appendChild(criarBotaoLink('Vídeo', links.video));
+                actions.appendChild(criarBotaoLink('Leitura', links.leitura));
+                actions.appendChild(criarBotaoLink('Exercício', links.exercicio));
+
+                card.appendChild(titulo);
+                card.appendChild(actions);
+
+                container.appendChild(card);
+            });
+        }
+
+        function mostrarSemana() {
             const topicosHumanas = dados.humanas[mesAtivo][semanaAtiva];
+            const topicosPortugues = dados.portugues[mesAtivo][semanaAtiva];
             const topicosExatas = dados.exatas[mesAtivo][semanaAtiva];
 
-            topicosHumanas.forEach(t => {
-                const links = getLinks(t.titulo);
-                const card = document.createElement('div');
-                card.className = 'card';
-
-                const titulo = document.createElement('div');
-                titulo.className = 'card-title';
-                titulo.textContent = t.titulo;
-
-                const actions = document.createElement('div');
-                actions.className = 'actions';
-
-                actions.appendChild(criarBotaoLink('Vídeo', links.video));
-                actions.appendChild(criarBotaoLink('Leitura', links.leitura));
-                actions.appendChild(criarBotaoLink('Exercício', links.exercicio));
-
-                card.appendChild(titulo);
-                card.appendChild(actions);
-
-                humanasContainer.appendChild(card);
-            });
-
-            topicosExatas.forEach(t => {
-                const links = getLinks(t.titulo);
-                const card = document.createElement('div');
-                card.className = 'card';
-
-                const titulo = document.createElement('div');
-                titulo.className = 'card-title';
-                titulo.textContent = t.titulo;
-
-                const actions = document.createElement('div');
-                actions.className = 'actions';
-
-                actions.appendChild(criarBotaoLink('Vídeo', links.video));
-                actions.appendChild(criarBotaoLink('Leitura', links.leitura));
-                actions.appendChild(criarBotaoLink('Exercício', links.exercicio));
-
-                card.appendChild(titulo);
-                card.appendChild(actions);
-
-                exatasContainer.appendChild(card);
-            });
+            mostrarTopicos(humanasContainer, topicosHumanas);
+            mostrarTopicos(portuguesContainer, topicosPortugues);
+            mostrarTopicos(exatasContainer, topicosExatas);
         }
 
         monthsContainer.addEventListener('click', e => {
@@ -374,11 +377,10 @@
             }
         });
 
-        // Inicializa com Mês 1, Semana 1
+        // Inicializa
         atualizarMeses();
         criarBotoesSemanas();
         mostrarSemana();
     </script>
 </body>
-
 </html>
